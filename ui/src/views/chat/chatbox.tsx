@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { cn } from "../util";
+import { cn } from "~/src/util";
 
 const ChatBox: React.FC<{
 	defaultValue?: string;
@@ -13,10 +13,10 @@ const ChatBox: React.FC<{
 			<textarea
 				value={message}
 				className={cn(
-					"border border-gray-800 rounded-md outline-none resize-none w-full p-2",
+					"border border-accent rounded-md outline-none resize-none w-full p-2",
 					"backdrop-blur-md bg-black/70",
 				)}
-				placeholder="input"
+				placeholder="Type your prompt here..."
 				onChange={(e) => {
 					setMessage(e.target.value);
 				}}

@@ -141,3 +141,21 @@ export function timeAgo(pgTimestamp: string | Date): string {
 	const years = Math.floor(months / 12);
 	return `${years} year${years !== 1 ? "s" : ""} ago`;
 }
+
+export async function streamResponse(
+	resp: Promise<any>,
+	callback: (chunk: string) => void,
+): Promise<string> {
+	let res = await resp;
+	const decoder = new TextDecoder();
+	let full = "";
+
+	for await (const chunk of res.body) {
+		let c = decoder.decode(chunk);
+		console.log(c);
+		full += c;
+		callback(full);
+	}
+
+	return full;
+}

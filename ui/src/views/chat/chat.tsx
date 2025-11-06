@@ -1,0 +1,61 @@
+import React, { useContext, useEffect, useState } from "react";
+import ChatBox from "./chatbox";
+import { Message } from "~/src/api/types";
+import ChatLog from "./chatlog";
+import { ApiContext } from "~/src/main";
+import Models from "./models";
+import { streamResponse } from "~/src/util";
+
+const Chat = () => {
+	const api = useContext(ApiContext);
+
+	const [models, setModels] = useState<string[]>([]);
+	const [selectedModel, setSelectedModel] = useState<string>();
+	const [messages, setMessages] = useState<Message[]>([]);
+	const [streaming, setStreaming] = useState<string>(undefined);
+
+	const getModels = () => {
+		api.completions
+			.models()
+			.then((data) => data.json())
+			.then(setModels)
+			.catch(console.log);
+	};
+
+	useEffect(() => {
+		api && getModels();
+	}, [api]);
+
+	return (
+		<>
+			<div className="h-[100%] w-[100%] flex flex-col relative">
+				<Models
+					models={models}
+					selectedModel={selectedModel}
+					onSelect={setSelectedModel}
+				/>
+				<ChatLog chat={messages} streaming={streaming} />
+			</div>
+
+			<div className="w-full p-6 fixed flex items-center bottom-0">
+				<ChatBox
+					className="grow"
+					onMessage={async (message) => {
+						let tmp = [...messages];
+						tmp.push({ role: "user", content: message });
+
+						const resp = api.completions.chat(selectedModel, tmp as any);
+						let response = await streamResponse(resp, (message) => {
+							console.log(message);
+						});
+
+						tmp.push({ role: "assistant", content: response });
+						setMessages(tmp);
+					}}
+				/>
+			</div>
+		</>
+	);
+};
+
+export default Chat;
