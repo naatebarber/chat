@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+@theme {
+  --color-chat-agent: #666666;
+  --color-chat-user: #222222;
+}
+
+body {
+  background-color: black;
+  color: white;
+}
+
