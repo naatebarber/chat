@@ -1,0 +1,6 @@
+{
+	"ignore": ["node_modules"],
+	"watch": ["server/src"],
+	"exec": "yarn build && yarn start:nobuild",
+	"ext": "ts"
+}
