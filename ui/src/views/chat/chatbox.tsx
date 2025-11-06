@@ -13,10 +13,11 @@ const ChatBox: React.FC<{
 			<textarea
 				value={message}
 				className={cn(
-					"border border-accent rounded-md outline-none resize-none w-full p-2",
-					"backdrop-blur-md bg-black/70",
+					"rounded-md outline-none resize-none w-full p-3 shadow-sm",
+					"backdrop-blur-md bg-background-secondary/60",
 				)}
 				placeholder="Type your prompt here..."
+				spellCheck={false}
 				onChange={(e) => {
 					setMessage(e.target.value);
 				}}

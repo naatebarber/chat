@@ -1,14 +1,15 @@
 @import "tailwindcss";
 
 @theme {
-  --color-background: black;
-  --color-text: white;
-  --color-accent: purple;
-  --color-background-secondary: #aaa;
+  --color-background: white;
+  --color-text: black;
+  --color-accent: #88ab97;
+  --color-text-accent: white;
+  --color-background-secondary: #efefef;
   --color-text-secondary: #eee;
 
-  --color-chat-agent: #666666;
-  --color-chat-user: #222222;
+  --color-chat-agent: #dedede;
+  --color-chat-user: #efefef;
 }
 
 body {
@@ -27,3 +28,10 @@ body {
   scrollbar-width: none; /* Firefox */
 }
 
+.lora {
+  font-family: Lora;
+}
+
+.work {
+  font-family: "Work Sans";
+}

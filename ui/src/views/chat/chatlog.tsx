@@ -14,7 +14,7 @@ const ChatMessage: React.FC<{
 		>
 			<div
 				className={cn(
-					"rounded-md p-2",
+					"rounded-md p-3 sm:max-w-[60%]",
 					message.role === "assistant"
 						? "rounded-bl-none bg-chat-agent"
 						: "rounded-br-none bg-chat-user",

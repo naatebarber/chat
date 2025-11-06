@@ -30,7 +30,7 @@ const Chat = () => {
 
 	return (
 		<>
-			<div className="h-[100%] w-[100%] flex flex-col relative">
+			<div className="h-[100%] w-[100%] flex flex-col relative pb-8">
 				<Models
 					models={models}
 					selectedModel={selectedModel}

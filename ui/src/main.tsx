@@ -13,7 +13,7 @@ export const ApiContext = createContext<API>(undefined);
 const App = () => {
 	return (
 		<ApiContext.Provider value={api}>
-			<div>
+			<div className="lora">
 				<BrowserRouter>
 					<Routes>
 						<Route path="/" element={<Layout />}>
