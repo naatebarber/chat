@@ -152,7 +152,6 @@ export async function streamResponse(
 
 	for await (const chunk of res.body) {
 		let c = decoder.decode(chunk);
-		console.log(c);
 		full += c;
 		callback(full);
 	}
