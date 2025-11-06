@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Message } from "~/src/api/types";
 import { cn } from "~/src/util";
 
@@ -31,6 +31,12 @@ const ChatLog: React.FC<{
 	streaming: string;
 	className?: string;
 }> = ({ chat, streaming, className }) => {
+	const lowRef = useRef<HTMLDivElement>(undefined);
+
+	useEffect(() => {
+		lowRef?.current?.scrollIntoView({ behavior: "smooth" });
+	}, [streaming]);
+
 	return (
 		<div
 			className={cn(
@@ -42,15 +48,19 @@ const ChatLog: React.FC<{
 				<ChatMessage message={m} key={`message-${i}`} />
 			))}
 
-			{streaming && (
-				<ChatMessage
-					message={{
-						role: "assistant",
-						content: streaming,
-					}}
-					key={"incoming"}
-				/>
-			)}
+			{streaming &&
+				chat.length > 0 &&
+				streaming !== chat[chat.length - 1].content && (
+					<ChatMessage
+						message={{
+							role: "assistant",
+							content: streaming,
+						}}
+						key={"incoming"}
+					/>
+				)}
+
+			<div ref={lowRef}></div>
 		</div>
 	);
 };

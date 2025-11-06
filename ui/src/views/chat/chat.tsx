@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import ChatBox from "./chatbox";
 import { Message } from "~/src/api/types";
 import ChatLog from "./chatlog";
@@ -12,6 +12,8 @@ const Chat = () => {
 	const [models, setModels] = useState<string[]>([]);
 	const [selectedModel, setSelectedModel] = useState<string>();
 	const [messages, setMessages] = useState<Message[]>([]);
+
+	const incoming = useRef<string>("");
 	const [streaming, setStreaming] = useState<string>(undefined);
 
 	const getModels = () => {
@@ -43,14 +45,19 @@ const Chat = () => {
 					onMessage={async (message) => {
 						let tmp = [...messages];
 						tmp.push({ role: "user", content: message });
+						setMessages(tmp);
 
 						const resp = api.completions.chat(selectedModel, tmp as any);
 						let response = await streamResponse(resp, (message) => {
-							console.log(message);
+							incoming.current = message;
+							setStreaming(message);
 						});
-
 						tmp.push({ role: "assistant", content: response });
-						setMessages(tmp);
+
+						setTimeout(() => {
+							setStreaming(undefined);
+							setMessages(tmp);
+						}, 300);
 					}}
 				/>
 			</div>
