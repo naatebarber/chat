@@ -1,13 +1,11 @@
 {
 	"compilerOptions": {
-		/* Language & Module */
-		"target": "ES2022", // Node 20 supports ES2022 natively
-		"module": "NodeNext", // modern ESM import/export
-		"moduleResolution": "NodeNext", // matches how Vite / modern Node resolve
-		"verbatimModuleSyntax": true, // preserves import/export exactly
+		"target": "ES2022",
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
+		"verbatimModuleSyntax": true, 
 		"types": ["node"],
 
-		/* Strictness */
 		"strict": true,
 		"noImplicitAny": true,
 		"noUnusedLocals": true,
@@ -15,12 +13,10 @@
 		"noFallthroughCasesInSwitch": true,
 		"forceConsistentCasingInFileNames": true,
 
-		/* Output */
 		"outDir": "../dist",
 		"rootDir": "src",
 		"sourceMap": true,
 
-		/* Module interoperability */
 		"esModuleInterop": true,
 		"skipLibCheck": true,
 		"resolveJsonModule": true
