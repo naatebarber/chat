@@ -67,7 +67,7 @@ const ChatLog: React.FC<{
 	const lowRef = useRef<HTMLDivElement>(undefined);
 
 	useEffect(() => {
-		lowRef?.current?.scrollIntoView({ behavior: "smooth" });
+		lowRef?.current?.scrollIntoView({ behavior: "instant" });
 	}, [streaming]);
 
 	return (
