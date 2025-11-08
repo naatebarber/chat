@@ -20,7 +20,10 @@ const Chat = () => {
 		api.completions
 			.models()
 			.then((data) => data.json())
-			.then(setModels)
+			.then((data) => {
+				setSelectedModel(data[0]);
+				setModels(data);
+			})
 			.catch(console.log);
 	};
 
@@ -32,6 +35,7 @@ const Chat = () => {
 		<>
 			<div className="h-[100%] w-[100%] flex flex-col relative pb-8">
 				<Models
+					className="shrink-0"
 					models={models}
 					selectedModel={selectedModel}
 					onSelect={setSelectedModel}

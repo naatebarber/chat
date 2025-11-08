@@ -5,11 +5,13 @@ const Models: React.FC<{
 	models: string[];
 	selectedModel: string;
 	onSelect: (model: string) => void;
-}> = ({ models, selectedModel, onSelect }) => {
+	className?: string;
+}> = ({ models, selectedModel, onSelect, className }) => {
 	return (
 		<div
 			className={cn(
 				"p-6 flex flex-row space-x-2 items-center overflow-x-scroll no-scrollbar shadow-sm",
+				className,
 			)}
 		>
 			{models.map((m) => (

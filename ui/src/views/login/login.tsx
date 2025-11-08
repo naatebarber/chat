@@ -37,7 +37,7 @@ const Login = () => {
 
 	return (
 		<div className="h-[100vh] w-[100vw] flex flex-col items-center justify-center space-y-2">
-			<Logo className="text-xl font-light mb-8" />
+			<Logo className="text-xl mb-8" />
 			<input
 				className={inputStyle}
 				value={username}
