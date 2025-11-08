@@ -7,10 +7,7 @@ import Chat from "./views/chat/chat";
 import API from "./api/api";
 import Login from "./views/login/login";
 
-const api = new API(
-	sessionStorage.getItem("x-ntuser"),
-	sessionStorage.getItem("x-nttoken"),
-);
+const api = new API();
 
 export const ApiContext = createContext<API>(undefined);
 
