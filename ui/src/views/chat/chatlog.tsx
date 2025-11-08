@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from "react";
-import { Message } from "~/src/api/types";
+import { Message } from "~/src/api/api";
 import { cn } from "~/src/util";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 const ChatMessage: React.FC<{
-	message: Message;
+	message: Partial<Message>;
 }> = ({ message }) => {
 	return (
 		<div
@@ -60,7 +60,7 @@ const ChatMessage: React.FC<{
 };
 
 const ChatLog: React.FC<{
-	chat: Message[];
+	chat: Partial<Message>[];
 	streaming: string;
 	className?: string;
 }> = ({ chat, streaming, className }) => {

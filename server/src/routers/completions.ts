@@ -1,9 +1,12 @@
 import express from "express";
 import { Ollama } from "ollama";
+import type { Pool } from "pg";
+import { jwtauth } from "../util/auth.js";
 
-const completionsRouter = (ollama: Ollama) => {
+const completionsRouter = (secret: string, _db: Pool, ollama: Ollama) => {
 	const completions = express.Router();
 	completions.use(express.json());
+	completions.use(jwtauth(secret));
 
 	completions.get("/models", async (_, res) => {
 		try {

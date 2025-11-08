@@ -2,26 +2,50 @@ import express, { type Application } from "express";
 import path from "path";
 import completionsRouter from "./routers/completions.js";
 import { Ollama } from "ollama";
+import { createDb } from "./db.js";
+import messagesRouter from "./routers/messages.js";
+import authRouter from "./routers/auth.js";
 
-function createOllama() {
+function createOllama(OLLAMA_HOST: string, OLLAMA_API_KEY?: string) {
 	return new Ollama({
-		host: process.env.OLLAMA_HOST,
+		host: OLLAMA_HOST,
 		headers: {
-			...(process.env.OLLAMA_API_KEY
-				? { Authorization: "Bearer " + process.env.OLLAMA_API_KEY }
-				: {}),
+			...(OLLAMA_API_KEY ? { Authorization: "Bearer " + OLLAMA_API_KEY } : {}),
 		},
 	});
 }
 
-export function createApi(): Application {
+export async function createApi(): Promise<Application> {
 	const app = express();
 	app.enable("trust proxy");
 
-	const ollama = createOllama();
+	const ollama = createOllama(
+		process.env.OLLAMA_HOST!,
+		process.env.OLLAMA_API_KEY,
+	);
+
+	let dbRequires = ["PG_HOST", "PG_PORT", "PG_DB", "PG_USER", "PG_PASS"];
+
+	for (let req of dbRequires) {
+		if (!process.env[req]) {
+			throw new Error(`Environment missing required variable '${req}'`);
+		}
+	}
+
+	let secret = process.env.SECRET ?? "secret";
+
+	const db = await createDb(
+		process.env.PG_HOST!,
+		process.env.PG_PORT!,
+		process.env.PG_DB!,
+		process.env.PG_USER!,
+		process.env.PG_PASS!,
+	);
 
 	const api = express.Router();
-	api.use("/completions", completionsRouter(ollama));
+	api.use("/auth", authRouter(secret, db));
+	api.use("/completions", completionsRouter(secret, db, ollama));
+	api.use("/messages", messagesRouter(secret, db, ollama));
 	app.use("/api", api);
 
 	app.use("/", express.static(path.join(import.meta.dirname, "ui")));

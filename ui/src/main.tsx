@@ -5,8 +5,12 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Layout from "./layout";
 import Chat from "./views/chat/chat";
 import API from "./api/api";
+import Login from "./views/login/login";
 
-const api = new API("test", "test");
+const api = new API(
+	sessionStorage.getItem("x-ntuser"),
+	sessionStorage.getItem("x-nttoken"),
+);
 
 export const ApiContext = createContext<API>(undefined);
 
@@ -20,6 +24,7 @@ const App = () => {
 							<Route path="/" element={<Chat />} />
 							<Route path="*" element={<Navigate to="/" />} />
 						</Route>
+						<Route path="/login" element={<Login />} />
 					</Routes>
 				</BrowserRouter>
 			</div>

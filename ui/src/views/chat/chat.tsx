@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import ChatBox from "./chatbox";
-import { Message } from "~/src/api/types";
+import { Message } from "~/src/api/api";
 import ChatLog from "./chatlog";
 import { ApiContext } from "~/src/main";
 import Models from "./models";
@@ -11,7 +11,7 @@ const Chat = () => {
 
 	const [models, setModels] = useState<string[]>([]);
 	const [selectedModel, setSelectedModel] = useState<string>();
-	const [messages, setMessages] = useState<Message[]>([]);
+	const [messages, setMessages] = useState<Partial<Message>[]>([]);
 
 	const incoming = useRef<string>("");
 	const [streaming, setStreaming] = useState<string>(undefined);
