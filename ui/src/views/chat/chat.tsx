@@ -47,6 +47,11 @@ const Chat = () => {
 				<ChatBox
 					className="grow"
 					onMessage={async (message) => {
+						if (message === "@clear") {
+							setMessages([]);
+							return;
+						}
+
 						let tmp = [...messages];
 						tmp.push({ role: "user", content: message });
 						setMessages(tmp);
