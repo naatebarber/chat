@@ -6,7 +6,7 @@ export default class Completions extends Client {
 		return this.get("/api/completions/models");
 	}
 
-	chat(model: string, messages: Message[]) {
+	chat(model: string, messages: Message[], signal?: AbortSignal) {
 		return this.post(
 			`/api/completions/chat`,
 			{
@@ -15,6 +15,7 @@ export default class Completions extends Client {
 			},
 			{
 				json: true,
+				signal,
 			},
 		);
 	}

@@ -26,6 +26,7 @@ export abstract class Client {
 			json?: boolean;
 			noauth?: boolean;
 			headers?: any;
+			signal?: AbortSignal;
 		},
 	): Promise<Response> {
 		return fetch(uri, {
@@ -36,6 +37,7 @@ export abstract class Client {
 				...(options?.headers ?? {}),
 			},
 			body: body ? (options?.json ? JSON.stringify(body) : body) : undefined,
+			signal: options?.signal,
 		});
 	}
 

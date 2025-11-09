@@ -35,6 +35,7 @@ const Chat = () => {
 
 	const incoming = useRef<string>("");
 	const [streaming, setStreaming] = useState<string>(undefined);
+	const [abort, setAbort] = useState<AbortController>(undefined);
 
 	const [showModels, setShowModels] = useState<boolean>(false);
 
@@ -59,24 +60,32 @@ const Chat = () => {
 			return;
 		}
 
-		let tmp = [...messages];
-		tmp.push({ role: "user", content: message });
-		setMessages(tmp);
-
-		const resp = api.completions.chat(selectedModel, tmp as any);
-		let response = await streamResponse(resp, (message) => {
-			incoming.current = message;
-			setStreaming(message);
-		});
-		tmp.push({ role: "assistant", content: response });
-
-		setTimeout(() => {
-			setStreaming(undefined);
+		try {
+			let tmp = [...messages];
+			tmp.push({ role: "user", content: message });
 			setMessages(tmp);
-		}, 300);
-	};
 
-	const handleStopCompletion = () => {};
+			const controller = new AbortController();
+			const signal = controller.signal;
+			setAbort(controller);
+
+			const resp = api.completions.chat(selectedModel, tmp as any, signal);
+			let response = await streamResponse(resp, (message) => {
+				incoming.current = message;
+				setStreaming(message);
+			});
+			tmp.push({ role: "assistant", content: response });
+
+			setTimeout(() => {
+				setStreaming(undefined);
+				setAbort(undefined);
+				setMessages(tmp);
+			}, 300);
+		} catch (err) {
+			setStreaming(undefined);
+			setAbort(undefined);
+		}
+	};
 
 	useEffect(() => {
 		api && getModels();
@@ -96,10 +105,10 @@ const Chat = () => {
 					onMessage={handleStartCompletion}
 				/>
 
-				{streaming ? (
+				{abort ? (
 					<icons.StopCircle
 						className="h-5 w-5 hover:text-accent cursor-pointer transition-colors"
-						onClick={handleStopCompletion}
+						onClick={() => abort.abort()}
 					/>
 				) : (
 					<icons.Send

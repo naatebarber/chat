@@ -79,7 +79,7 @@ const ChatLog: React.FC<{
 	return (
 		<div
 			className={cn(
-				"grow flex flex-col space-y-2 p-6 overflow-y-scroll pb-[20vh]",
+				"grow flex flex-col space-y-2 p-6 overflow-y-scroll no-scrollbar pb-[20vh]",
 				className,
 			)}
 			onWheel={() => {
