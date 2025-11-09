@@ -16,10 +16,9 @@ const ChatMessage: React.FC<{
 		>
 			<div
 				className={cn(
-					"rounded-md p-3 sm:max-w-[60%]",
-					message.role === "assistant"
-						? "rounded-bl-none bg-chat-agent"
-						: "rounded-br-none bg-chat-user",
+					"rounded-md p-3",
+					message.role === "user" &&
+						"rounded-br-none bg-chat-user sm:max-w-[60%]",
 				)}
 			>
 				<Markdown
@@ -79,7 +78,7 @@ const ChatLog: React.FC<{
 	return (
 		<div
 			className={cn(
-				"grow flex flex-col space-y-2 p-6 overflow-y-scroll no-scrollbar pb-[20vh]",
+				"grow flex flex-col space-y-6 p-6 overflow-y-scroll no-scrollbar pb-[20vh]",
 				className,
 			)}
 			onWheel={() => {
