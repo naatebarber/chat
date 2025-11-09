@@ -4,9 +4,11 @@ import CheckSession from "./components/CheckSession";
 import Logo from "./components/Logo";
 import * as icons from "lucide-react";
 import { ApiContext } from "./main";
+import { useTheme } from "./hooks/useTheme";
 
 const Header: React.FC = () => {
 	const api = useContext(ApiContext);
+	const [_, setDark] = useTheme();
 
 	return (
 		<div className="flex items-center justify-between shrink-0 p-6 shadow-sm">
@@ -14,6 +16,14 @@ const Header: React.FC = () => {
 				<Logo />
 			</div>
 			<div className="flex items-center space-x-3">
+				<icons.Moon
+					className="h-4 w-4 text-text hover:text-accent transition-colors cursor-pointer"
+					onClick={() => setDark(true)}
+				/>
+				<icons.Sun
+					className="h-4 w-4 text-text hover:text-accent transition-colors cursor-pointer"
+					onClick={() => setDark(false)}
+				/>
 				<icons.LogOut
 					className="h-4 w-4 text-text hover:text-accent transition-colors cursor-pointer"
 					onClick={() => api.logout()}

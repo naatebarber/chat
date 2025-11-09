@@ -10,7 +10,6 @@ import ChatBox from "./chatbox";
 import { Message } from "~/src/api/api";
 import ChatLog from "./chatlog";
 import { ApiContext } from "~/src/main";
-import Models from "./models";
 import { streamResponse } from "~/src/util";
 import ChatSettings from "./settings";
 import * as icons from "lucide-react";

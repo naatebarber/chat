@@ -15,6 +15,22 @@
   --color-chat-user: #efefef;
 }
 
+/* dark theme override */
+[data-theme="dark"] {
+  --color-background: #111;
+  --color-text: #eee;
+  --color-accent: #88ab97;
+  --color-text-accent: white;
+  --color-background-secondary: #1a1a1a;
+  --color-text-secondary: #ccc;
+
+  --color-background-code: #222;
+  --color-text-code: #ddd;
+
+  --color-chat-agent: #222;
+  --color-chat-user: #333;
+}
+
 body {
   background-color: var(--color-background);
   color: var(--color-text);
