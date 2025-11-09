@@ -1,10 +1,29 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {
+	createContext,
+	Dispatch,
+	useContext,
+	useEffect,
+	useRef,
+	useState,
+} from "react";
 import ChatBox from "./chatbox";
 import { Message } from "~/src/api/api";
 import ChatLog from "./chatlog";
 import { ApiContext } from "~/src/main";
 import Models from "./models";
 import { streamResponse } from "~/src/util";
+import ChatSettings from "./settings";
+import * as icons from "lucide-react";
+
+export interface ChatState {
+	models: string[];
+	selectedModel?: string;
+}
+
+export const ChatContext = createContext<{
+	state: ChatState;
+	setState: Dispatch<React.SetStateAction<ChatState>>;
+}>(undefined);
 
 const Chat = () => {
 	const api = useContext(ApiContext);
@@ -15,6 +34,8 @@ const Chat = () => {
 
 	const incoming = useRef<string>("");
 	const [streaming, setStreaming] = useState<string>(undefined);
+
+	const [showModels, setShowModels] = useState<boolean>(false);
 
 	const getModels = () => {
 		api.completions
@@ -34,18 +55,13 @@ const Chat = () => {
 	return (
 		<>
 			<div className="h-[100%] w-[100%] flex flex-col relative pb-8">
-				<Models
-					className="shrink-0"
-					models={models}
-					selectedModel={selectedModel}
-					onSelect={setSelectedModel}
-				/>
 				<ChatLog chat={messages} streaming={streaming} />
 			</div>
 
-			<div className="w-full p-6 fixed flex items-center bottom-0">
+			<div className="w-full p-6 fixed flex items-center bottom-0 space-x-4">
 				<ChatBox
 					className="grow"
+					modelName={selectedModel}
 					onMessage={async (message) => {
 						if (message === "@clear") {
 							setMessages([]);
@@ -69,7 +85,20 @@ const Chat = () => {
 						}, 300);
 					}}
 				/>
+
+				<icons.BrainCog
+					className="h-5 w-5 hover:text-accent cursor-pointer transition-colors"
+					onClick={() => setShowModels(true)}
+				/>
 			</div>
+
+			<ChatSettings
+				show={showModels}
+				onHide={() => setShowModels(false)}
+				models={models}
+				selectedModel={selectedModel}
+				onSelectModel={setSelectedModel}
+			/>
 		</>
 	);
 };

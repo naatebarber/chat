@@ -9,7 +9,7 @@ const Header: React.FC = () => {
 	const api = useContext(ApiContext);
 
 	return (
-		<div className="flex items-center justify-between shrink-0 p-6">
+		<div className="flex items-center justify-between shrink-0 p-6 shadow-sm">
 			<div className="flex items-center space-x-3">
 				<Logo />
 			</div>

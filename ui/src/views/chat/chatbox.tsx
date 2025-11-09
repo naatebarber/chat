@@ -4,8 +4,9 @@ import { cn } from "~/src/util";
 const ChatBox: React.FC<{
 	defaultValue?: string;
 	onMessage?: (chat: string) => void;
+	modelName?: string;
 	className: string;
-}> = ({ defaultValue, onMessage, className }) => {
+}> = ({ defaultValue, onMessage, modelName, className }) => {
 	const [message, setMessage] = useState<string>(defaultValue ?? "");
 
 	return (
@@ -16,7 +17,7 @@ const ChatBox: React.FC<{
 					"rounded-md outline-none resize-none w-full p-3 shadow-sm",
 					"backdrop-blur-md bg-background-secondary/60",
 				)}
-				placeholder="Type your prompt here..."
+				placeholder={`Chatting with @${modelName}`}
 				spellCheck={false}
 				onChange={(e) => {
 					setMessage(e.target.value);
