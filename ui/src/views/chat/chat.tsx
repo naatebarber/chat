@@ -29,6 +29,8 @@ const Chat = () => {
 
 	const [models, setModels] = useState<string[]>([]);
 	const [selectedModel, setSelectedModel] = useState<string>();
+
+	const [pendingMessage, setPendingMessage] = useState<string>();
 	const [messages, setMessages] = useState<Partial<Message>[]>([]);
 
 	const incoming = useRef<string>("");
@@ -47,6 +49,35 @@ const Chat = () => {
 			.catch(console.log);
 	};
 
+	const handleStartCompletion = async (message: string) => {
+		if (message === "") {
+			return;
+		}
+
+		if (message === "@clear") {
+			setMessages([]);
+			return;
+		}
+
+		let tmp = [...messages];
+		tmp.push({ role: "user", content: message });
+		setMessages(tmp);
+
+		const resp = api.completions.chat(selectedModel, tmp as any);
+		let response = await streamResponse(resp, (message) => {
+			incoming.current = message;
+			setStreaming(message);
+		});
+		tmp.push({ role: "assistant", content: response });
+
+		setTimeout(() => {
+			setStreaming(undefined);
+			setMessages(tmp);
+		}, 300);
+	};
+
+	const handleStopCompletion = () => {};
+
 	useEffect(() => {
 		api && getModels();
 	}, [api]);
@@ -61,29 +92,21 @@ const Chat = () => {
 				<ChatBox
 					className="grow"
 					modelName={selectedModel}
-					onMessage={async (message) => {
-						if (message === "@clear") {
-							setMessages([]);
-							return;
-						}
-
-						let tmp = [...messages];
-						tmp.push({ role: "user", content: message });
-						setMessages(tmp);
-
-						const resp = api.completions.chat(selectedModel, tmp as any);
-						let response = await streamResponse(resp, (message) => {
-							incoming.current = message;
-							setStreaming(message);
-						});
-						tmp.push({ role: "assistant", content: response });
-
-						setTimeout(() => {
-							setStreaming(undefined);
-							setMessages(tmp);
-						}, 300);
-					}}
+					onChange={setPendingMessage}
+					onMessage={handleStartCompletion}
 				/>
+
+				{streaming ? (
+					<icons.StopCircle
+						className="h-5 w-5 hover:text-accent cursor-pointer transition-colors"
+						onClick={handleStopCompletion}
+					/>
+				) : (
+					<icons.Send
+						className="h-5 w-5 hover:text-accent cursor-pointer transition-colors"
+						onClick={() => handleStartCompletion(pendingMessage)}
+					/>
+				)}
 
 				<icons.BrainCog
 					className="h-5 w-5 hover:text-accent cursor-pointer transition-colors"

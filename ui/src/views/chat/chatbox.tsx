@@ -4,9 +4,10 @@ import { cn } from "~/src/util";
 const ChatBox: React.FC<{
 	defaultValue?: string;
 	onMessage?: (chat: string) => void;
+	onChange?: (chat: string) => void;
 	modelName?: string;
 	className: string;
-}> = ({ defaultValue, onMessage, modelName, className }) => {
+}> = ({ defaultValue, onMessage, onChange, modelName, className }) => {
 	const [message, setMessage] = useState<string>(defaultValue ?? "");
 
 	return (
@@ -21,12 +22,14 @@ const ChatBox: React.FC<{
 				spellCheck={false}
 				onChange={(e) => {
 					setMessage(e.target.value);
+					onChange?.(e.target.value);
 				}}
 				onKeyDown={(e) => {
-					if (e.key === "Enter") {
+					if (e.key === "Enter" && !e.shiftKey) {
 						e.preventDefault();
 						onMessage?.(message);
 						setMessage("");
+						onChange?.("");
 					}
 				}}
 			/>

@@ -25,6 +25,7 @@ const ChatSettings: React.FC<{
 						<div className="flex flex-col space-y-1 border-t border-accent p-4 transition-colors max-h-[30vh] overflow-y-scroll no-scrollbar relative">
 							{models.map((m) => (
 								<div
+									key={`model-${m}`}
 									className="flex flex-row items-center space-x-2 px-2 py-1 rounded-sm hover:bg-accent hover:text-text-accent cursor-pointer"
 									onClick={() => onSelectModel(m)}
 								>

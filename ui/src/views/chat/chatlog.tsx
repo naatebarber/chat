@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Message } from "~/src/api/api";
 import { cn } from "~/src/util";
 import Markdown from "react-markdown";
@@ -65,10 +65,16 @@ const ChatLog: React.FC<{
 	className?: string;
 }> = ({ chat, streaming, className }) => {
 	const lowRef = useRef<HTMLDivElement>(undefined);
+	const [userScrolled, setUserScrolled] = useState<boolean>(false);
 
 	useEffect(() => {
-		lowRef?.current?.scrollIntoView({ behavior: "instant" });
+		if (!!streaming && !userScrolled)
+			lowRef?.current?.scrollIntoView({ behavior: "instant" });
 	}, [streaming]);
+
+	useEffect(() => {
+		setUserScrolled(false);
+	}, [!!streaming]);
 
 	return (
 		<div
@@ -76,6 +82,9 @@ const ChatLog: React.FC<{
 				"grow flex flex-col space-y-2 p-6 overflow-y-scroll pb-[20vh]",
 				className,
 			)}
+			onWheel={() => {
+				setUserScrolled(true);
+			}}
 		>
 			{chat.map((m, i) => (
 				<ChatMessage message={m} key={`message-${i}`} />
