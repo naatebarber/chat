@@ -6,15 +6,19 @@ import Layout from "./layout";
 import Chat from "./views/chat/chat";
 import API from "./api/api";
 import Login from "./views/login/login";
+import { cn } from "./util";
+import { useTheme } from "./hooks/useTheme";
 
 const api = new API();
 
 export const ApiContext = createContext<API>(undefined);
 
 const App = () => {
+	const [dark] = useTheme();
+
 	return (
 		<ApiContext.Provider value={api}>
-			<div className="lora">
+			<div className={cn("lora", dark && "dark")}>
 				<BrowserRouter>
 					<Routes>
 						<Route path="/" element={<Layout />}>

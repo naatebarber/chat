@@ -3,7 +3,7 @@ import path from "path";
 import completionsRouter from "./routers/completions.js";
 import { Ollama } from "ollama";
 import { createDb } from "./db.js";
-import messagesRouter from "./routers/messages.js";
+import documentsRouter from "./routers/documents.js";
 import authRouter from "./routers/auth.js";
 
 function createOllama(OLLAMA_HOST: string, OLLAMA_API_KEY?: string) {
@@ -45,7 +45,7 @@ export async function createApi(): Promise<Application> {
 	const api = express.Router();
 	api.use("/auth", authRouter(secret, db));
 	api.use("/completions", completionsRouter(secret, db, ollama));
-	api.use("/messages", messagesRouter(secret, db, ollama));
+	api.use("/documents", documentsRouter(secret, db, ollama));
 	app.use("/api", api);
 
 	app.use("/", express.static(path.join(import.meta.dirname, "ui")));

@@ -33,7 +33,7 @@ const Login = () => {
 	const inputStyle =
 		"px-2 py-2 rounded-sm border border-accent shadow-sm w-[200px] outline-accent text-sm";
 	const buttonStyle =
-		"px-2 py-2 rounded-sm border border-accent hover:bg-accent hover:text-text-accent transition-colors w-[200px] cursor-pointer text-sm";
+		"px-2 py-2 rounded-sm border border-accent hover:bg-accent hover:text-accent-foreground transition-colors w-[200px] cursor-pointer text-sm";
 
 	return (
 		<div className="h-[100vh] w-[100vw] flex flex-col items-center justify-center space-y-2">

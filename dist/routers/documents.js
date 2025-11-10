@@ -52,4 +52,4 @@ const documentsRouter = (secret, db, _ollama) => {
     return documents;
 };
 export default documentsRouter;
-//# sourceMappingURL=messages.js.map
+//# sourceMappingURL=documents.js.map

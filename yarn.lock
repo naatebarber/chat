@@ -650,7 +650,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@radix-ui/react-dialog@npm:^1.1.1":
+"@radix-ui/react-dialog@npm:^1.1.1, @radix-ui/react-dialog@npm:^1.1.15":
   version: 1.1.15
   resolution: "@radix-ui/react-dialog@npm:1.1.15"
   dependencies:
@@ -1829,6 +1829,7 @@ __metadata:
   resolution: "chat@workspace:."
   dependencies:
     "@biomejs/biome": "npm:^2.3.4"
+    "@radix-ui/react-dialog": "npm:^1.1.15"
     "@tailwindcss/typography": "npm:^0.5.19"
     "@tailwindcss/vite": "npm:^4.1.16"
     "@types/bcrypt": "npm:^6.0.0"
@@ -1856,6 +1857,8 @@ __metadata:
     remark-gfm: "npm:^4.0.1"
     tailwind-merge: "npm:^3.3.1"
     tailwindcss: "npm:^4.1.16"
+    tailwindcss-animate: "npm:^1.0.7"
+    tw-animate-css: "npm:^1.4.0"
     typescript: "npm:^5.9.3"
     vaul: "npm:^1.1.2"
     vite: "npm:^7.2.0"
@@ -4673,6 +4676,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tailwindcss-animate@npm:^1.0.7":
+  version: 1.0.7
+  resolution: "tailwindcss-animate@npm:1.0.7"
+  peerDependencies:
+    tailwindcss: "*"
+  checksum: 10/ef176fbb0bf9dca84178b35b6a9615cd756358ea80be9c575456d12ecd7f3c431e9e571915c7df72959dc798a730959e9a4739d59eab55d8cc6db390870ff0d2
+  languageName: node
+  linkType: hard
+
 "tailwindcss@npm:4.1.16, tailwindcss@npm:^4.1.16":
   version: 4.1.16
   resolution: "tailwindcss@npm:4.1.16"
@@ -4735,6 +4747,13 @@ __metadata:
   version: 2.8.1
   resolution: "tslib@npm:2.8.1"
   checksum: 10/3e2e043d5c2316461cb54e5c7fe02c30ef6dccb3384717ca22ae5c6b5bc95232a6241df19c622d9c73b809bea33b187f6dbc73030963e29950c2141bc32a79f7
+  languageName: node
+  linkType: hard
+
+"tw-animate-css@npm:^1.4.0":
+  version: 1.4.0
+  resolution: "tw-animate-css@npm:1.4.0"
+  checksum: 10/9d46c71b624bc7f9cf7a91c0ab3a04cfb22ba605a690961eea35689e368a8721add12815f59aa0fbf7092374acb24552f281351a83bf8b25414c52f4888f94ad
   languageName: node
   linkType: hard
 

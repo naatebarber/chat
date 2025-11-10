@@ -14,7 +14,7 @@ const ChatSettings: React.FC<{
 		<Drawer.Root open={show} onOpenChange={(open) => !open && onHide()}>
 			<Drawer.Portal>
 				<Drawer.Overlay className="fixed inset-0 bg-black/40" />
-				<Drawer.Content className="bg-background-secondary h-fit fixed bottom-0 left-0 right-0 outline-none rounded-lg p-4 flex flex-col space-y-4 lora">
+				<Drawer.Content className="bg-secondary h-fit fixed bottom-0 left-0 right-0 outline-none rounded-lg p-4 flex flex-col space-y-4 lora">
 					<Drawer.Handle />
 					<Drawer.Title className="flex flex-row justify-center items-center space-x-2 text-lg">
 						<icons.Brain className="h-4 w-4 mr-2" />

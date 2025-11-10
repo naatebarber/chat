@@ -1,12 +1,13 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
 @theme {
   --color-background: white;
-  --color-text: black;
+  --color-foreground: black;
   --color-accent: #88ab97;
-  --color-text-accent: white;
-  --color-background-secondary: #efefef;
-  --color-text-secondary: #eee;
+  --color-accent-foreground: white;
+  --color-secondary: #efefef;
+  --color-secondary-foreground: #eee;
 
   --color-background-code: #333;
   --color-text-code: white;
@@ -18,14 +19,14 @@
 /* dark theme override */
 [data-theme="dark"] {
   --color-background: #111;
-  --color-text: #eee;
+  --color-foreground: #eee;
   --color-accent: #88ab97;
-  --color-text-accent: white;
-  --color-background-secondary: #1a1a1a;
-  --color-text-secondary: #ccc;
+  --color-accent-foreground: white;
+  --color-secondary: #1a1a1a;
+  --color-secondary-foreground: #ccc;
 
-  --color-background-code: #222;
-  --color-text-code: #ddd;
+  --color-code: #222;
+  --color-code-foreground: #ddd;
 
   --color-chat-agent: #222;
   --color-chat-user: #333;
@@ -33,7 +34,7 @@
 
 body {
   background-color: var(--color-background);
-  color: var(--color-text);
+  color: var(--color-foreground);
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */

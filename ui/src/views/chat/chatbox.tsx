@@ -16,7 +16,7 @@ const ChatBox: React.FC<{
 				value={message}
 				className={cn(
 					"rounded-md outline-none resize-none w-full p-3 shadow-sm",
-					"backdrop-blur-md bg-background-secondary/60",
+					"backdrop-blur-md bg-secondary/60",
 				)}
 				placeholder={`Chatting with @${modelName}`}
 				spellCheck={false}

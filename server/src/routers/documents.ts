@@ -5,19 +5,19 @@ import type { Pool } from "pg";
 import type { Message } from "../db.js";
 import { jwtauth } from "../util/auth.js";
 
-const messagesRouter = (secret: string, db: Pool, _ollama: Ollama) => {
-	const messages = express.Router();
-	messages.use(express.json());
-	messages.use(jwtauth(secret));
+const documentsRouter = (secret: string, db: Pool, _ollama: Ollama) => {
+	const documents = express.Router();
+	documents.use(express.json());
+	documents.use(jwtauth(secret));
 
-	messages.get("/", async (req, res) => {
+	documents.get("/", async (req, res) => {
 		try {
 			let { offset, limit } = req.query;
 			if (!offset || !limit) return res.sendStatus(400);
 
 			let data = await db.query(
 				`
-        SELECT * FROM messages
+        SELECT * FROM documents
         OFFSET $1
         LIMIT $2
         `,
@@ -31,7 +31,7 @@ const messagesRouter = (secret: string, db: Pool, _ollama: Ollama) => {
 		}
 	});
 
-	messages.post("/", async (req, res) => {
+	documents.post("/", async (req, res) => {
 		try {
 			let { message } = req.body as { message: Message };
 			if (!message) return res.sendStatus(400);
@@ -40,7 +40,7 @@ const messagesRouter = (secret: string, db: Pool, _ollama: Ollama) => {
 
 			await db.query(
 				`
-        INSERT INTO messages (
+        INSERT INTO documents (
           hash,
           role,
           content,
@@ -62,7 +62,7 @@ const messagesRouter = (secret: string, db: Pool, _ollama: Ollama) => {
 		}
 	});
 
-	return messages;
+	return documents;
 };
 
-export default messagesRouter;
+export default documentsRouter;

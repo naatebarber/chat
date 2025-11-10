@@ -37,7 +37,7 @@ const ChatMessage: React.FC<{
 							}
 
 							return (
-								<pre className="whitespace-pre-wrap break-words rounded-sm text-text-code bg-background-code p-2 my-3 text-sm">
+								<pre className="whitespace-pre-wrap break-words rounded-sm text-code-foreground bg-code p-2 my-3 text-sm">
 									<code className={className}>{children}</code>
 								</pre>
 							);
