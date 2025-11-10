@@ -41,6 +41,28 @@ export abstract class Client {
 		});
 	}
 
+	patch(
+		uri: string,
+		body?: any,
+		options?: {
+			json?: boolean;
+			noauth?: boolean;
+			headers?: any;
+			signal?: AbortSignal;
+		},
+	): Promise<Response> {
+		return fetch(uri, {
+			method: "PATCH",
+			headers: {
+				...(options?.noauth ? {} : this.auth()),
+				...(options?.json ? { "Content-Type": "application/json" } : {}),
+				...(options?.headers ?? {}),
+			},
+			body: body ? (options?.json ? JSON.stringify(body) : body) : undefined,
+			signal: options?.signal,
+		});
+	}
+
 	delete(
 		uri: string,
 		body?: any,

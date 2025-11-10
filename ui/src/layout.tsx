@@ -56,6 +56,11 @@ const routes: {
 		path: "/documents",
 		Icon: icons.File,
 	},
+	{
+		name: "Loops",
+		path: "/loops",
+		Icon: icons.Infinity,
+	},
 ];
 
 const Layout = () => {
@@ -87,8 +92,7 @@ const Layout = () => {
 								key={r.path}
 								className={cn(
 									"flex items-center space-x-2 transition-colors cursor-pointer select-none px-2 py-1 rounded-md",
-									pathname !== r.path &&
-										"hover:bg-secondary hover:text-secondary-foreground",
+									pathname !== r.path && "hover:bg-secondary",
 									pathname === r.path && "bg-accent text-accent-foreground",
 								)}
 								onClick={() => {

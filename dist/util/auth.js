@@ -10,7 +10,7 @@ export const jwtauth = (secret) => {
         const contents = verifyToken(token, secret);
         if (!contents?.username)
             return res.sendStatus(401);
-        req.query.username = contents.username;
+        req.user = contents;
         return next();
     };
 };

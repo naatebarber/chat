@@ -3,6 +3,14 @@ import express from "express";
 
 export const _scopes = ["viewer", "analyst", "tuner", "super"];
 
+declare global {
+	namespace Express {
+		interface Request {
+			user: any;
+		}
+	}
+}
+
 export const jwtauth = (secret: string) => {
 	return async (
 		req: express.Request,
@@ -17,7 +25,7 @@ export const jwtauth = (secret: string) => {
 		const contents = verifyToken(token, secret);
 		if (!contents?.username) return res.sendStatus(401);
 
-		req.query.username = contents.username;
+		req.user = contents;
 		return next();
 	};
 };

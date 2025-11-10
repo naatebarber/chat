@@ -1,5 +1,6 @@
 import Auth from "./clients/auth";
 import Completions from "./clients/completions";
+import Documents from "./clients/documents";
 
 export interface ChatMessage {
 	role: "user" | "system" | "assistant";
@@ -12,19 +13,29 @@ export type Message = ChatMessage & {
 	created_at: number;
 };
 
+export interface Document {
+	hash: string;
+	content: string;
+	embedding?: number[];
+	owner: string;
+	created_at: number;
+}
+
 export default class API {
 	token: string;
 	client_id: string;
 
 	auth: Auth;
 	completions: Completions;
+	documents: Documents;
 
 	constructor() {
 		this.token = sessionStorage.getItem("x-nttoken");
 		this.client_id = sessionStorage.getItem("x-ntuser");
 
-		this.completions = new Completions(this);
 		this.auth = new Auth(this);
+		this.completions = new Completions(this);
+		this.documents = new Documents(this);
 	}
 
 	credentials(token: string, client_id: string) {

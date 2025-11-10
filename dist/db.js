@@ -22,11 +22,12 @@ export async function createDb(HOST, PORT, DB, USER, PASS) {
     )
     `);
     db.query(`
-    CREATE TABLE IF NOT EXISTS messages (
+    CREATE TABLE IF NOT EXISTS documents (
       hash VARCHAR(100) PRIMARY KEY,
-      role VARCHAR(20),
       content TEXT,
+      metadata JSONB,
       embedding vector(384),
+      owner VARCHAR(100),
       created_at TIMESTAMP
     )
     `);

@@ -19,6 +19,14 @@ export type Message = ChatMessage & {
 	created_at: number;
 };
 
+export interface Document {
+	hash: string;
+	content: string;
+	embedding?: number[];
+	owner: string;
+	created_at: number;
+}
+
 export async function createDb(
 	HOST: string,
 	PORT: string,
@@ -56,11 +64,12 @@ export async function createDb(
 
 	db.query(
 		`
-    CREATE TABLE IF NOT EXISTS messages (
+    CREATE TABLE IF NOT EXISTS documents (
       hash VARCHAR(100) PRIMARY KEY,
-      role VARCHAR(20),
       content TEXT,
+      metadata JSONB,
       embedding vector(384),
+      owner VARCHAR(100),
       created_at TIMESTAMP
     )
     `,

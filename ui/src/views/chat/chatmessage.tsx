@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Message } from "~/src/api/api";
 import { cn } from "~/src/util";
 import { toast } from "sonner";
@@ -14,7 +14,17 @@ const ChatMessage: React.FC<{
 	const [savedMessage, setSavedMessage] = useState<boolean>(false);
 
 	const saveMessage = (message: Partial<Message>) => {
-		toast.success("Saved message to documents");
+		toast.promise(
+			() =>
+				api.documents.createDocument(message.content, {
+					source: "message",
+					role: message.role,
+				}),
+			{
+				success: "Saved message to documents",
+				error: "Failed to save message...",
+			},
+		);
 	};
 
 	return (

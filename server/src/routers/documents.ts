@@ -2,7 +2,6 @@ import crypto from "node:crypto";
 import express from "express";
 import { Ollama } from "ollama";
 import type { Pool } from "pg";
-import type { Message } from "../db.js";
 import { jwtauth } from "../util/auth.js";
 
 const documentsRouter = (secret: string, db: Pool, _ollama: Ollama) => {
@@ -31,28 +30,83 @@ const documentsRouter = (secret: string, db: Pool, _ollama: Ollama) => {
 		}
 	});
 
+	documents.get("/search", async (req, res) => {
+		try {
+			let { search, offset, limit } = req.query;
+
+			if (!search || !offset || !limit) return res.sendStatus(400);
+
+			let data = await db.query(
+				`
+        SELECT * FROM documents
+        WHERE content ILIKE $1
+        OFFSET $2
+        LIMIT $3
+        `,
+				[
+					`%${search as string}%`,
+					parseInt(offset as string),
+					parseInt(limit as string),
+				],
+			);
+
+			return res.send(data.rows ?? []);
+		} catch (err) {
+			console.log(err);
+			return res.sendStatus(500);
+		}
+	});
+
 	documents.post("/", async (req, res) => {
 		try {
-			let { message } = req.body as { message: Message };
-			if (!message) return res.sendStatus(400);
+			let { username: owner } = req.user;
+			let { content, metadata } = req.body as {
+				content: string;
+				metadata?: any;
+			};
 
-			let hash = crypto.hash("md5", message.content);
+			console.log(content, owner);
+			if (!content || !owner) return res.sendStatus(400);
+
+			let hash = crypto.hash("md5", content);
 
 			await db.query(
 				`
         INSERT INTO documents (
           hash,
-          role,
           content,
+          metadata,
+          owner,
           created_at
         ) VALUES (
           $1,
           $2,
           $3,
-          to_timestamp($4),
+          $4,
+          to_timestamp($5)
         ) ON CONFLICT DO NOTHING 
         `,
-				[hash, message.role, message.content, Date.now() / 1000],
+				[hash, content, metadata, owner as string, Date.now() / 1000],
+			);
+
+			return res.sendStatus(201);
+		} catch (err) {
+			console.log(err);
+			return res.sendStatus(500);
+		}
+	});
+
+	documents.delete("/:hash", async (req, res) => {
+		try {
+			let { hash } = req.params;
+			if (!hash) return res.sendStatus(400);
+
+			await db.query(
+				`
+        DELETE FROM documents
+        WHERE hash = $1
+        `,
+				[hash],
 			);
 
 			return res.sendStatus(201);
