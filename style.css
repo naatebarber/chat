@@ -7,7 +7,7 @@
   --color-accent: #88ab97;
   --color-accent-foreground: white;
   --color-secondary: #efefef;
-  --color-secondary-foreground: #eee;
+  --color-secondary-foreground: #333;
 
   --color-background-code: #333;
   --color-text-code: white;
@@ -23,7 +23,7 @@
   --color-accent: #567a66;
   --color-accent-foreground: white;
   --color-secondary: #1a1a1a;
-  --color-secondary-foreground: #ccc;
+  --color-secondary-foreground: #999;
 
   --color-code: #222;
   --color-code-foreground: #ddd;

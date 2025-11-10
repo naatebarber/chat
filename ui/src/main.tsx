@@ -9,6 +9,7 @@ import Login from "./views/login/login";
 import { cn } from "./util";
 import { useTheme } from "./hooks/useTheme";
 import Documents from "./views/documents/documents";
+import { Toaster } from "./components/sonner";
 
 const api = new API();
 
@@ -31,6 +32,8 @@ const App = () => {
 					</Routes>
 				</BrowserRouter>
 			</div>
+
+			<Toaster position="top-center" />
 		</ApiContext.Provider>
 	);
 };
