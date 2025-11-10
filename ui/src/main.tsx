@@ -8,6 +8,7 @@ import API from "./api/api";
 import Login from "./views/login/login";
 import { cn } from "./util";
 import { useTheme } from "./hooks/useTheme";
+import Documents from "./views/documents/documents";
 
 const api = new API();
 
@@ -23,6 +24,7 @@ const App = () => {
 					<Routes>
 						<Route path="/" element={<Layout />}>
 							<Route path="/" element={<Chat />} />
+							<Route path="/documents" element={<Documents />} />
 							<Route path="*" element={<Navigate to="/" />} />
 						</Route>
 						<Route path="/login" element={<Login />} />
