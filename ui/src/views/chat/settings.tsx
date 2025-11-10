@@ -12,6 +12,7 @@ const ModelSettings: React.FC<{
 		<div className="flex gap-2 flex-wrap">
 			{models.map((m) => (
 				<div
+					key={`model-select-${m}`}
 					className={cn(
 						"border border-secondary px-2 py-1 rounded-md cursor-pointer",
 						selectedModel !== m && "hover:border-accent",

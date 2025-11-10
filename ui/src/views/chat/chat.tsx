@@ -117,7 +117,7 @@ const Chat = () => {
 					/>
 				)}
 
-				<icons.BrainCog
+				<icons.Cog
 					className="h-5 w-5 hover:text-accent cursor-pointer transition-colors"
 					onClick={() => setShowModels(true)}
 				/>
