@@ -49,7 +49,6 @@ const documentsRouter = (secret, db, _ollama) => {
         try {
             let { username: owner } = req.user;
             let { content, metadata } = req.body;
-            console.log(content, owner);
             if (!content || !owner)
                 return res.sendStatus(400);
             let hash = crypto.hash("md5", content);

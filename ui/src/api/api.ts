@@ -16,6 +16,7 @@ export type Message = ChatMessage & {
 export interface Document {
 	hash: string;
 	content: string;
+	metadata: { [key: string]: any };
 	embedding?: number[];
 	owner: string;
 	created_at: number;

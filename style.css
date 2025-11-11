@@ -9,8 +9,8 @@
   --color-secondary: #efefef;
   --color-secondary-foreground: #333;
 
-  --color-background-code: #333;
-  --color-text-code: white;
+  --color-code: #333;
+  --color-code-foreground: white;
 
   --color-chat-agent: #dedede;
   --color-chat-user: #efefef;

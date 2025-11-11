@@ -65,7 +65,6 @@ const documentsRouter = (secret: string, db: Pool, _ollama: Ollama) => {
 				metadata?: any;
 			};
 
-			console.log(content, owner);
 			if (!content || !owner) return res.sendStatus(400);
 
 			let hash = crypto.hash("md5", content);

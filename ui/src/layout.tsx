@@ -11,13 +11,14 @@ import { cn } from "./util";
 const Header: React.FC<{
 	onMenuOpen: () => void;
 }> = ({ onMenuOpen }) => {
+	const navigate = useNavigate();
 	const api = useContext(ApiContext);
 	const [_, setDark] = useTheme();
 
 	return (
 		<div className="flex items-center justify-between shrink-0 p-6 shadow-sm bg-background border-b border-secondary">
 			<div className="flex items-center space-x-3">
-				<Logo />
+				<Logo onClick={() => navigate("/")} />
 			</div>
 			<div className="flex items-center space-x-3">
 				<icons.Moon
@@ -86,7 +87,7 @@ const Layout = () => {
 						Menu
 					</SheetTitle>
 
-					<div className="flex flex-col space-y-1">
+					<div className="flex flex-col space-y-1 text-sm">
 						{routes.map((r) => (
 							<div
 								key={r.path}

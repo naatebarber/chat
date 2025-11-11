@@ -57,9 +57,11 @@ const ChatMessage: React.FC<{
 							}
 
 							return (
-								<pre className="whitespace-pre-wrap break-words rounded-sm text-code-foreground bg-code p-2 my-3 text-sm">
-									<code className={className}>{children}</code>
-								</pre>
+								<div className="flex">
+									<pre className="whitespace-pre-wrap break-words rounded-sm text-code-foreground bg-code p-4 my-3 text-sm">
+										<code className={className}>{children}</code>
+									</pre>
+								</div>
 							);
 						},
 						h1: ({ children }) => (
