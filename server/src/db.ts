@@ -8,16 +8,10 @@ export interface User {
 	config: any;
 }
 
-export interface ChatMessage {
+export interface Message {
 	role: "user" | "system" | "assistant";
 	content: string;
 }
-
-export type Message = ChatMessage & {
-	hash: string;
-	embedding?: number[];
-	created_at: number;
-};
 
 export interface Document {
 	hash: string;

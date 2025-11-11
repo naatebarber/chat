@@ -1,4 +1,4 @@
-import React, { createContext } from "react";
+import React, { createContext, useState, Dispatch } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
@@ -14,25 +14,39 @@ import { Toaster } from "./components/sonner";
 const api = new API();
 export const ApiContext = createContext<API>(undefined);
 
+interface GlobalState {
+	messages: Message[];
+}
+
+export const GlobalStateContext = createContext<{
+	global: GlobalState;
+	setGlobal: Dispatch<React.SetStateAction<GlobalState>>;
+}>(undefined);
+
 const App = () => {
 	const [dark] = useTheme();
+	const [global, setGlobal] = useState<GlobalState>({
+		messages: [],
+	});
 
 	return (
 		<ApiContext.Provider value={api}>
-			<div className={cn("lora", dark && "dark")}>
-				<BrowserRouter>
-					<Routes>
-						<Route path="/" element={<Layout />}>
-							<Route path="/" element={<Chat />} />
-							<Route path="/documents" element={<Documents />} />
-							<Route path="*" element={<Navigate to="/" />} />
-						</Route>
-						<Route path="/login" element={<Login />} />
-					</Routes>
-				</BrowserRouter>
-			</div>
+			<GlobalStateContext.Provider value={{ global, setGlobal }}>
+				<div className={cn("lora", dark && "dark")}>
+					<BrowserRouter>
+						<Routes>
+							<Route path="/" element={<Layout />}>
+								<Route path="/" element={<Chat />} />
+								<Route path="/documents" element={<Documents />} />
+								<Route path="*" element={<Navigate to="/" />} />
+							</Route>
+							<Route path="/login" element={<Login />} />
+						</Routes>
+					</BrowserRouter>
+				</div>
 
-			<Toaster position="top-center" />
+				<Toaster position="top-center" />
+			</GlobalStateContext.Provider>
 		</ApiContext.Provider>
 	);
 };

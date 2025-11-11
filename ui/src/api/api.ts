@@ -2,16 +2,10 @@ import Auth from "./clients/auth";
 import Completions from "./clients/completions";
 import Documents from "./clients/documents";
 
-export interface ChatMessage {
+export interface Message {
 	role: "user" | "system" | "assistant";
 	content: string;
 }
-
-export type Message = ChatMessage & {
-	hash: string;
-	embedding?: number[];
-	created_at: number;
-};
 
 export interface Document {
 	hash: string;

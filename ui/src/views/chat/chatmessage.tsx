@@ -8,12 +8,12 @@ import * as icons from "lucide-react";
 import { ApiContext } from "~/src/main";
 
 const ChatMessage: React.FC<{
-	message: Partial<Message>;
+	message: Message;
 }> = ({ message }) => {
 	const api = useContext(ApiContext);
 	const [savedMessage, setSavedMessage] = useState<boolean>(false);
 
-	const saveMessage = (message: Partial<Message>) => {
+	const saveMessage = (message: Message) => {
 		toast.promise(
 			() =>
 				api.documents.createDocument(message.content, {

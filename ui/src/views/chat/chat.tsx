@@ -1,37 +1,20 @@
-import React, {
-	createContext,
-	Dispatch,
-	useContext,
-	useEffect,
-	useRef,
-	useState,
-} from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import ChatBox from "./chatbox";
 import { Message } from "~/src/api/api";
 import ChatLog from "./chatlog";
-import { ApiContext } from "~/src/main";
+import { ApiContext, GlobalStateContext } from "~/src/main";
 import { streamResponse } from "~/src/util";
 import ChatSettings from "./settings";
 import * as icons from "lucide-react";
 
-export interface ChatState {
-	models: string[];
-	selectedModel?: string;
-}
-
-export const ChatContext = createContext<{
-	state: ChatState;
-	setState: Dispatch<React.SetStateAction<ChatState>>;
-}>(undefined);
-
 const Chat = () => {
 	const api = useContext(ApiContext);
+	const { global, setGlobal } = useContext(GlobalStateContext);
 
 	const [models, setModels] = useState<string[]>([]);
 	const [selectedModel, setSelectedModel] = useState<string>();
 
 	const [pendingMessage, setPendingMessage] = useState<string>();
-	const [messages, setMessages] = useState<Partial<Message>[]>([]);
 
 	const incoming = useRef<string>("");
 	const [streaming, setStreaming] = useState<string>(undefined);
@@ -50,36 +33,37 @@ const Chat = () => {
 			.catch(console.log);
 	};
 
-	const handleStartCompletion = async (message: string) => {
-		if (message === "") {
+	const handleStartCompletion = async (userContent: string) => {
+		if (userContent === "") {
 			return;
 		}
 
-		if (message === "@clear") {
-			setMessages([]);
+		if (userContent === "@clear") {
+			setGlobal({ ...global, messages: [] });
 			return;
 		}
 
 		try {
-			let tmp = [...messages];
-			tmp.push({ role: "user", content: message });
-			setMessages(tmp);
+			let newMessages = [...global.messages];
+			let userMessage = { role: "user", content: userContent } as Message;
+			newMessages.push(userMessage);
+			setGlobal({ ...global, messages: newMessages });
 
 			const controller = new AbortController();
 			const signal = controller.signal;
 			setAbort(controller);
 
-			const resp = api.completions.chat(selectedModel, tmp as any, signal);
+			const resp = api.completions.chat(selectedModel, newMessages, signal);
 			let response = await streamResponse(resp, (message) => {
 				incoming.current = message;
 				setStreaming(message);
 			});
-			tmp.push({ role: "assistant", content: response });
+			newMessages.push({ role: "assistant", content: response });
 
 			setTimeout(() => {
 				setStreaming(undefined);
 				setAbort(undefined);
-				setMessages(tmp);
+				setGlobal({ ...global, messages: newMessages });
 			}, 300);
 		} catch (err) {
 			setStreaming(undefined);
@@ -94,7 +78,7 @@ const Chat = () => {
 	return (
 		<>
 			<div className="h-[100%] w-[100%] flex flex-col relative pb-8">
-				<ChatLog chat={messages} streaming={streaming} />
+				<ChatLog chat={global.messages} streaming={streaming} />
 			</div>
 
 			<div className="w-full p-6 fixed flex items-center bottom-0 space-x-4">

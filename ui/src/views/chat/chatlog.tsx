@@ -4,12 +4,13 @@ import { cn } from "~/src/util";
 import ChatMessage from "./chatmessage";
 
 const ChatLog: React.FC<{
-	chat: Partial<Message>[];
+	chat: Message[];
 	streaming: string;
 	className?: string;
 }> = ({ chat, streaming, className }) => {
 	const lowRef = useRef<HTMLDivElement>(undefined);
 	const [userScrolled, setUserScrolled] = useState<boolean>(false);
+	const [init, setInit] = useState<boolean>(true);
 
 	useEffect(() => {
 		if (!!streaming && !userScrolled)
@@ -19,6 +20,13 @@ const ChatLog: React.FC<{
 	useEffect(() => {
 		setUserScrolled(false);
 	}, [!!streaming]);
+
+	useEffect(() => {
+		if (chat.length > 0 && init) {
+			lowRef?.current.scrollIntoView({ behavior: "instant" });
+			setInit(false);
+		}
+	}, [chat]);
 
 	return (
 		<div
